@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[lfc博客]]></title><description><![CDATA[lfc博客]]></description><link>https://lifengchuan2008.github.io</link><generator>RSS for Node</generator><lastBuildDate>Fri, 02 Dec 2016 02:55:22 GMT</lastBuildDate><atom:link href="https://lifengchuan2008.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[test]]></title><description><![CDATA[<div class="paragraph">
+<p>当新增功能或者修复bug时需要增加一个分支，这样不会影响主分支（master）的代码，直到分支代开发完成测试通过，通过Merge Request 合并到master分支。
+master分支是受保护的不是每个都可以修改这个分支，以及拥有审批merge request 的权利的。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><mark>#</mark># 分支类别</p>
+</li>
+<li>
+<p>master分支：完成一次release都要将代码合并到该分支，该分支任何时候都要处于可部署状态。</p>
+</li>
+<li>
+<p>功能分支：为了开发某种特定功能，从master分支分离出来的分支；开发完成后通过 <strong>merge request</strong>合并到master分支。</p>
+</li>
+<li>
+<p>热修复分支：从master分离出来的分支，用于修复紧急bug；开发完成后通过 <strong>merge request</strong>合并到master分支。</p>
+</li>
+<li>
+<p><mark>#</mark># 分支命名规范</p>
+</li>
+<li>
+<p>功能分支以“feature-*”开头</p>
+</li>
+<li>
+<p>线上紧急修改的bug称为hotfix，以“hotfix-*”开头</p>
+</li>
+</ul>
+</div>]]></description><link>https://lifengchuan2008.github.io/2016/12/02/test.html</link><guid isPermaLink="true">https://lifengchuan2008.github.io/2016/12/02/test.html</guid><category><![CDATA[test]]></category><category><![CDATA[ Blog]]></category><category><![CDATA[ Open Source]]></category><pubDate>Fri, 02 Dec 2016 00:00:00 GMT</pubDate></item></channel></rss>
