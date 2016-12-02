@@ -4,7 +4,12 @@
     "repositoryName": "lifengchuan2008.github.io",
     "branch": "master"
   },
+  "site": {
+    "title": "lfc博客",
+    "googleAnalytics": "UA-88346935-1"
+  },
+  "socialnetwork": {},
   "theme": {
-    "name": "Casper"
+    "name": "casper"
   }
 }
