@@ -1,0 +1,115 @@
+= Cloudfiy  rabbitmq 迁移
+:hp-tags: cloudify, rabbitmq, code,
+
+
+.1、安装rabbitMQ
+----
+$ apt-get instal rabbitmq-server
+$ rabbitmqctl add_user cloudify c10udify
+$ rabbitmqctl  set_permissions -p / cloudify  '.*' '.*' '.*'
+----
+2、cloudify 相关配置
+
+修改celeryd-cloudify-management 中的run脚本
+
+. 增加BROKER_IP 环节变量 export BROKER_IP="192.168.100.3"
+. 修改 BROKER_URL
+
+ export BROKER_URL="amqp://cloudify:c10udify@$BROKER_IP:5672//"
+
+. 修改 env/bin/celery worker的 broker 参数
+
+ --broker=$BROKER_URL \
+ 
+. 修改rieman中run 脚本
+ 
+ vim /etc/service/riemann/run
+
+ * 增加RABBITMQ_HOST 环节变量
+ 
+  export  RABBITMQ_HOST="192.168.100.3"
+  
+. 修改logstash config配置
+
+  vim /etc/service/logstash/config.conf
+
+* 修改rabbitmq host 地址
+
+----
+rabbitmq {
+      queue => "cloudify-logs"
+     host => "192.168.100.3"
+    durable => "true"
+    auto_delete => "true"
+    exclusive => "false"
+     user => "cloudify"
+       password => "c10udify"
+  }
+
+   rabbitmq {
+     queue => "cloudify-events"
+     host => "192.168.100.3"
+     durable => "true"
+       auto_delete => "true"
+      exclusive => "false"
+       user => "cloudify"
+      password => "c10udify"
+   }
+----
+ . 修改cloudif manager 中的python配置
+vim /opt/manager/env/lib/python2.7/site-packages/manager_rest/config.py
+
+修改 _amqp_address 变量
+class Config(object):
+
+    def __init__(self):
+        self._db_address = 'localhost'
+        self._db_port = 9200
+        self._amqp_address = '192.168.100.3'
+        self._amqp_username = 'cloudify'
+        self._amqp_password = 'c10udify'
+修改 celeryd-cloudify-management env目录中python代码
+vim /etc/service/celeryd-cloudify-management/env/lib/python2.7/site-packages/cloudify/amqp_client.py
+
+修改 amqp_client 中rabbitmq ip从BROKER_IP环境变量中取
+import os
+
+class AMQPClient(object):
+
+   events_queue_name = 'cloudify-events'
+   logs_queue_name = 'cloudify-logs'
+
+   def __init__(self):
+       self.events_queue = None
+       self.logs_queue = None
+       credentials = > pika.PlainCredentials('cloudify', >'c10udify')
+       BROKER_IP=os.environ.get('BROKER_>IP', '127.0.0.1')
+       print 'cloudify common >,broker_ip:'+BROKER_IP
+      self.connection = >pika.BlockingConnection(
+           >pika.ConnectionParameters(host=BROKER_IP,
+                                     >credentials=credentials))
+修改agent目录下的 python代码
+cd /opt/manager/resources/packages/agents 解压 Ubuntu-trusty-agent.tar.gz tar xzf Ubuntu-trusty-agent.tar.gz vim CloudifyAgent/env/lib/python2.7/site-packages/cloudify/amqp_client.py
+修改 amqp_client 中rabbitmq ip从BROKER_IP环境变量中取
+import os
+
+class AMQPClient(object):
+
+   events_queue_name = 'cloudify-events'
+   logs_queue_name = 'cloudify-logs'
+
+   def __init__(self):
+       self.events_queue = None
+       self.logs_queue = None
+       credentials = > pika.PlainCredentials('cloudify', >'c10udify')
+       BROKER_IP=os.environ.get('BROKER_>IP', '127.0.0.1')
+       print 'cloudify common >,broker_ip:'+BROKER_IP
+      self.connection = >pika.BlockingConnection(
+           >pika.ConnectionParameters(host=BROKER_IP,
+                                     >credentials=credentials))
+修改 cloudify manager resources 中templae配置
+cd /opt/manager/resources/packages/templates vim Ubuntu-celeryd-cloudify.conf.template
+
+修改export BROKER_IP="192.168.100.3"
+修改已安装deployment 相应的配置
+cd /etc/default 找到celeryd-开头的文件，将文件中的BROKER_IP 和 celery broker 参数修改了。
