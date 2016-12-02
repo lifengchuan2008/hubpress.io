@@ -1,4 +1,181 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[lfc博客]]></title><description><![CDATA[lfc博客]]></description><link>https://lifengchuan2008.github.io</link><generator>RSS for Node</generator><lastBuildDate>Fri, 02 Dec 2016 09:57:25 GMT</lastBuildDate><atom:link href="https://lifengchuan2008.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[代码提交规范]]></title><description><![CDATA[<div class="sect2">
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[lfc博客]]></title><description><![CDATA[lfc博客]]></description><link>https://lifengchuan2008.github.io</link><generator>RSS for Node</generator><lastBuildDate>Fri, 02 Dec 2016 10:39:49 GMT</lastBuildDate><atom:link href="https://lifengchuan2008.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Cloudfiy  rabbitmq 迁移]]></title><description><![CDATA[<div class="listingblock">
+<div class="title">1、安装rabbitMQ</div>
+<div class="content">
+<pre>$ apt-get instal rabbitmq-server
+$ rabbitmqctl add_user cloudify c10udify
+$ rabbitmqctl  set_permissions -p / cloudify  '.*' '.*' '.*'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>2、cloudify 相关配置</p>
+</div>
+<div class="paragraph">
+<p>修改celeryd-cloudify-management 中的run脚本</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>增加BROKER_IP 环节变量 export BROKER_IP="192.168.100.3"</p>
+</li>
+<li>
+<p>修改 BROKER_URL</p>
+<div class="literalblock">
+<div class="content">
+<pre>export BROKER_URL="amqp://cloudify:c10udify@$BROKER_IP:5672//"</pre>
+</div>
+</div>
+</li>
+<li>
+<p>修改 env/bin/celery worker的 broker 参数</p>
+<div class="literalblock">
+<div class="content">
+<pre>--broker=$BROKER_URL \</pre>
+</div>
+</div>
+</li>
+<li>
+<p>修改rieman中run 脚本</p>
+<div class="literalblock">
+<div class="content">
+<pre>vim /etc/service/riemann/run</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>增加RABBITMQ_HOST 环节变量</p>
+<div class="literalblock">
+<div class="content">
+<pre>export  RABBITMQ_HOST="192.168.100.3"</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>修改logstash config配置</p>
+<div class="literalblock">
+<div class="content">
+<pre>vim /etc/service/logstash/config.conf</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>修改rabbitmq host 地址</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>rabbitmq {
+      queue =&gt; "cloudify-logs"
+     host =&gt; "192.168.100.3"
+    durable =&gt; "true"
+    auto_delete =&gt; "true"
+    exclusive =&gt; "false"
+     user =&gt; "cloudify"
+       password =&gt; "c10udify"
+  }
+
+   rabbitmq {
+     queue =&gt; "cloudify-events"
+     host =&gt; "192.168.100.3"
+     durable =&gt; "true"
+       auto_delete =&gt; "true"
+      exclusive =&gt; "false"
+       user =&gt; "cloudify"
+      password =&gt; "c10udify"
+   }</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>修改cloudif manager 中的python配置
+vim /opt/manager/env/lib/python2.7/site-packages/manager_rest/config.py</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>修改 _amqp_address 变量
+class Config(object):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    def __init__(self):
+        self._db_address = 'localhost'
+        self._db_port = 9200
+        self._amqp_address = '192.168.100.3'
+        self._amqp_username = 'cloudify'
+        self._amqp_password = 'c10udify'
+修改 celeryd-cloudify-management env目录中python代码
+vim /etc/service/celeryd-cloudify-management/env/lib/python2.7/site-packages/cloudify/amqp_client.py</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>修改 amqp_client 中rabbitmq ip从BROKER_IP环境变量中取
+import os</p>
+</div>
+<div class="paragraph">
+<p>class AMQPClient(object):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>events_queue_name = 'cloudify-events'
+logs_queue_name = 'cloudify-logs'</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>   def __init__(self):
+       self.events_queue = None
+       self.logs_queue = None
+       credentials = &gt; pika.PlainCredentials('cloudify', &gt;'c10udify')
+       BROKER_IP=os.environ.get('BROKER_&gt;IP', '127.0.0.1')
+       print 'cloudify common &gt;,broker_ip:'+BROKER_IP
+      self.connection = &gt;pika.BlockingConnection(
+           &gt;pika.ConnectionParameters(host=BROKER_IP,
+                                     &gt;credentials=credentials))
+修改agent目录下的 python代码
+cd /opt/manager/resources/packages/agents 解压 Ubuntu-trusty-agent.tar.gz tar xzf Ubuntu-trusty-agent.tar.gz vim CloudifyAgent/env/lib/python2.7/site-packages/cloudify/amqp_client.py
+修改 amqp_client 中rabbitmq ip从BROKER_IP环境变量中取
+import os</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>class AMQPClient(object):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>events_queue_name = 'cloudify-events'
+logs_queue_name = 'cloudify-logs'</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>   def __init__(self):
+       self.events_queue = None
+       self.logs_queue = None
+       credentials = &gt; pika.PlainCredentials('cloudify', &gt;'c10udify')
+       BROKER_IP=os.environ.get('BROKER_&gt;IP', '127.0.0.1')
+       print 'cloudify common &gt;,broker_ip:'+BROKER_IP
+      self.connection = &gt;pika.BlockingConnection(
+           &gt;pika.ConnectionParameters(host=BROKER_IP,
+                                     &gt;credentials=credentials))
+修改 cloudify manager resources 中templae配置
+cd /opt/manager/resources/packages/templates vim Ubuntu-celeryd-cloudify.conf.template</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>修改export BROKER_IP="192.168.100.3"
+修改已安装deployment 相应的配置
+cd /etc/default 找到celeryd-开头的文件，将文件中的BROKER_IP 和 celery broker 参数修改了。</p>
+</div>]]></description><link>https://lifengchuan2008.github.io/2016/12/02/Cloudfiy-rabbitmq.html</link><guid isPermaLink="true">https://lifengchuan2008.github.io/2016/12/02/Cloudfiy-rabbitmq.html</guid><category><![CDATA[cloudify]]></category><category><![CDATA[ rabbitmq]]></category><category><![CDATA[ code]]></category><pubDate>Fri, 02 Dec 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[代码提交规范]]></title><description><![CDATA[<div class="sect2">
 <h3 id="__strong_strong"><strong>一、分支</strong></h3>
 <div class="literalblock">
 <div class="content">
