@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>代码提交规范 - lfc博客</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="代码提交规范">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="代码提交规范">
+    <meta property="og:description" content="">
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet" type="text/css" href="//lifengchuan2008.github.io/themes/uno/assets/css/uno.css?v=1480671798818" />
+
+    <link rel="canonical" href="https://lifengchuan2008.github.io/2015-01-31.adoc" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="lfc博客" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="代码提交规范" />
+    <meta property="og:description" content="一、分支    分支是 Git 的核心概念，同时 Git Workflow 也是基于分支进行操作. 当新增功能或者修复bug时需要增加一个分支，这样不会影响主分支（master）的代码， 直到分支代开发完成测试通过，通过Merge Request 合并到master分支。 master分支是受保护的不是每个都可以修改这个分支，以及拥有审批merge request 的权利的。 分支类别 master分支：完成一次release都要将代码合并到该分支，该分支任何时候都要处于可部署状态。 功能分支：为了开发某种特定功能，从master分支分离出来的分支；开发完成后通过 merge request合并到master分支。 热修复分支：从master分离出来的分支，用于修复紧急bug；开发完成后通" />
+    <meta property="og:url" content="https://lifengchuan2008.github.io/2015-01-31.adoc" />
+    <meta property="article:tag" content="code" />
+    <meta property="article:tag" content=" Blog" />
+    <meta property="article:tag" content=" git" />
+    <meta property="article:tag" content=" gitlab" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="代码提交规范" />
+    <meta name="twitter:description" content="一、分支    分支是 Git 的核心概念，同时 Git Workflow 也是基于分支进行操作. 当新增功能或者修复bug时需要增加一个分支，这样不会影响主分支（master）的代码， 直到分支代开发完成测试通过，通过Merge Request 合并到master分支。 master分支是受保护的不是每个都可以修改这个分支，以及拥有审批merge request 的权利的。 分支类别 master分支：完成一次release都要将代码合并到该分支，该分支任何时候都要处于可部署状态。 功能分支：为了开发某种特定功能，从master分支分离出来的分支；开发完成后通过 merge request合并到master分支。 热修复分支：从master分离出来的分支，用于修复紧急bug；开发完成后通" />
+    <meta name="twitter:url" content="https://lifengchuan2008.github.io/2015-01-31.adoc" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="lfc博客" href="https://lifengchuan2008.github.io/rss/" />
+
+</head>
+<body class="post-template tag-code tag-Blog tag-git tag-gitlab no-js">
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    <header class="panel-cover panel-cover--collapsed " >
+      <div class="panel-main">
+    
+        <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+    
+            <h1 class="panel-cover__title panel-title"><a href="https://lifengchuan2008.github.io" title="link to homepage for lfc博客">lfc博客</a></h1>
+            <hr class="panel-cover__divider" />
+            <p class="panel-cover__description"></p>
+            <hr class="panel-cover__divider panel-cover__divider--secondary" />
+    
+            <div class="navigation-wrapper">
+    
+              <nav class="cover-navigation cover-navigation--primary">
+                <ul class="navigation">
+                  <li class="navigation__item"><a href="https://lifengchuan2008.github.io/#blog" title="link to lfc博客 blog" class="blog-button">Blog</a></li>
+                </ul>
+              </nav>
+    
+              
+              
+              <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+              
+              
+              
+              
+              
+              
+              
+              
+              
+                  <!-- Email -->
+                  <li class="navigation__item">
+                    <a href="mailto:lifengchuan2008@gmail.com" title="Email lifengchuan2008@gmail.com">
+                      <i class='icon icon-mail'></i>
+                      <span class="label">Email</span>
+                    </a>
+                  </li>
+              
+                </ul>
+              </nav>
+              
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+        <div class="panel-cover--overlay"></div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            
+
+  <article class="post-container post-container--single">
+
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime="31 Jan 2015" class="post-meta__date date">31 Jan 2015</time> &#8226; <span class="post-meta__tags tags">on <a href="https://lifengchuan2008.github.io/tag/code/">code</a>, <a href="https://lifengchuan2008.github.io/tag/Blog/"> Blog</a>, <a href="https://lifengchuan2008.github.io/tag/git/"> git</a>, <a href="https://lifengchuan2008.github.io/tag/gitlab/"> gitlab</a></span>
+        <span class="post-meta__author author"><img src="https://avatars.githubusercontent.com/u/15622265?v&#x3D;3" alt="profile image for lifengchuan2008" class="avatar post-meta__avatar" /> by lifengchuan2008</span>
+      </div>
+      <h1 class="post-title">代码提交规范</h1>
+    </header>
+
+    <section class="post tag-code tag-Blog tag-git tag-gitlab">
+      <div class="sect2">
+<h3 id="__strong_strong"><strong>一、分支</strong></h3>
+<div class="literalblock">
+<div class="content">
+<pre>   分支是 Git 的核心概念，同时 Git Workflow 也是基于分支进行操作.
+当新增功能或者修复bug时需要增加一个分支，这样不会影响主分支（master）的代码，
+直到分支代开发完成测试通过，通过Merge Request 合并到master分支。
+master分支是受保护的不是每个都可以修改这个分支，以及拥有审批merge request 的权利的。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>分支类别</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>master分支：完成一次release都要将代码合并到该分支，该分支任何时候都要处于可部署状态。</p>
+</li>
+<li>
+<p>功能分支：为了开发某种特定功能，从master分支分离出来的分支；开发完成后通过 <strong>merge request</strong>合并到master分支。</p>
+</li>
+<li>
+<p>热修复分支：从master分离出来的分支，用于修复紧急bug；开发完成后通过 <strong>merge request</strong>合并到master分支。</p>
+<div class="literalblock">
+<div class="content">
+<pre>分支命名规范</pre>
+</div>
+</div>
+</li>
+<li>
+<p>功能分支以“feature-*”开头</p>
+</li>
+<li>
+<p>线上紧急修改的bug称为hotfix，以“hotfix-*”开头</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__strong_commit_strong"><strong>二、提交 commit 信息</strong></h3>
+<div class="literalblock">
+<div class="content">
+<pre>提信息是一件值得注重的事情. 当你提交代码时，Git 会跟踪代码的改变和对应的 commit
+信息，这就是你工作的隐形记录. 当你的小伙伴在查阅代码的时候，清晰的
+commit 信息会让他们迅速地明白 你做了什么，以及为什么这样做.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> commit 规范
+- add -新增需求
+- fix -修复 bug
+- update -更新代码
+- change -修改代码</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>小改动，一句 commit 信息说明
+大改动，新建 issue 说明情况，方案，变化:</p>
+</div>
+<div class="paragraph">
+<p>git commit -m 'fix #[issue number]: [Short summary of the change].'</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__strong_strong_2"><strong>三、粒度控制</strong></h3>
+<div class="paragraph">
+<p>代码的提交，以完成一个独立的功能单元为粒度. 切忌粒度过大或过小，比如完成多个功能或新增一个文件的提交，这不是一个推荐的做法. 粒度的关键在于，提交的代码为独立的功能单元，以便今后通过提交信息快速定位，进行回滚或合并分支.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> ### **四、功能分支**
+- 创建一个功能分支</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &gt; ```
+  &gt; # 获取maste最新代码
+  &gt; $ git checkout  master
+  &gt; $ git pull
+  &gt; # 新建功能分支
+  &gt; $ git checkout  -b  feature-amp-mgr
+  &gt; 切换到一个新分支 'feature-amp-mgr'
+  &gt;
+  &gt; ```
+  #### 功能分支要保持与master代码的同步
+  &gt; ```
+  &gt; # 获取maste最新代码
+  &gt; $ git checkout  master
+  &gt; $ git pull
+  &gt; # 切换分支
+  &gt; $ git checkout    feature-amp-mgr
+  &gt; # 将master分支代码合并到功能分支
+  &gt; $ git  merge --no-ff  master
+  &gt; ```
+- 完成一个功能分支</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &gt; ```
+&gt; $ git add .
+&gt; $ git commit  -m '简短描述做了什么修改'
+&gt; $ git push
+&gt; ```
+  新建“merge request”将代码合并到master分支，完成合并后删除-amp-mgr分支</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&gt; ```
+&gt;#删除feature-amp-mgr分支
+&gt; $ git branch -D feature-amp-mgr
+&gt; ```</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__strong_hotfix_strong"><strong>五、hotfix分支</strong></h3>
+<div class="paragraph">
+<p>一般线上出现严重bug需要修复的时候，需要新建一个hotfix分支。hotfix是基于master分支的，修复完成后将代码合并到master分支。
+  hotfix分支命名以hotfix-开头
+-  新建hotfix-1.2.1 分支</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&gt; ```
+&gt; # 新建hotfix-1.2.1分支
+&gt; $ git checkout  -b  hotfix-1.2.1 master
+&gt; 切换到一个新分支 'hotfix-1.2.1'
+&gt;
+&gt; ```</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>完成hotfix-1.2.1 分支</p>
+<div class="literalblock">
+<div class="content">
+<pre>&gt; ```
+&gt; $ git add .
+&gt; $ git commit  -m '简短描述做了什么修改'
+&gt; $ git push
+&gt; ```
+新建“merge request”将代码合并到master分支，完成合并后删除hotfix-1.2.1分支</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>   &gt; ```
+   &gt;#删除hotfix-1.2.1分支
+   &gt; $ git branch -D hotfix-1.2.1
+   &gt; ```
+### **六、Issue**
+   #### Issue 用于 Bug追踪和需求管理。建议先新建 Issue，再新建对应的功能分支。功能分支总是为了解决一个或多个 Issue。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>开发完成后，在提交说明里面，可以写上"fixes #14"或者"closes #67"。Github规定，
+只要commit message里面有下面这些动词 + 编号，就会关闭对应的issue。</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="ulist">
+<ul>
+<li>
+<p>close</p>
+</li>
+<li>
+<p>closes</p>
+</li>
+<li>
+<p>closed</p>
+</li>
+<li>
+<p>fix</p>
+</li>
+<li>
+<p>fixes</p>
+</li>
+<li>
+<p>fixed</p>
+</li>
+<li>
+<p>resolve</p>
+</li>
+<li>
+<p>resolves</p>
+</li>
+<li>
+<p>resolved</p>
+</li>
+</ul>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__strong_strong_3"><strong>七、创建合并请求</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>完成功能分支或者hotfix分支功能后最终要合并到master分支中，需要通过merge request  进行合并，merge  request  不仅仅是一个简单的代码合并，反应的代码的变更记录可以@其他人员进行代码review可以进行讨论，分支后续的变更也能反应在此。</p>
+<div class="literalblock">
+<div class="content">
+<pre>#### **新建合并请求**
+ 1.    将功能分支或者hotfix分支代码push到gitlab中
+ 2.    点击 **Merge requests** tab页面</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://docs.gitlab.com/ee/gitlab-basics/img/project_navbar.png " alt="project navbar.png "></span>
+   3. 点击 <strong>New merge request</strong> 按钮。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_new.png " alt="merge request new.png "></span>
+   4. <strong>source branch</strong> 选择对应的功能分支或者hotfix分支，<strong>targer branch</strong>选择 master分支，点击<strong>Compare branches and continue</strong>按钮。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_select_branch.png " alt="merge request select branch.png "></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>为合并请求添加一个标题和描述，选择一个用户review merge request关闭或者接受合并请求，在描述中可以@其他用户进行代码review，</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_page.png " alt="sd"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>合并代码时 使用git merge --no-ff 这样会保留分支的commit记录</p>
+</li>
+<li>
+<p>合并commit 技巧，想要将多个commit合并成一个commit，比如想把前两次commit合并成一个commit使用git reset HEAD~2 先撤销过去两个提交，再新建一个commit</p>
+<div class="literalblock">
+<div class="content">
+<pre>&gt;```
+&gt; #撤销过去2个提交
+&gt;$ git  reset HEAD~2
+&gt;$ git add .
+&gt;$ git  commit -m 'fix bugs [#2,#5]'
+&gt;$ git push
+&gt;```</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+    </section>
+
+  </article>
+
+
+
+
+            <footer class="footer">
+                <span class="footer__copyright">&copy; 2016. All rights reserved.</span>
+                <span class="footer__copyright"><a href="http://uno.daleanthony.com" title="link to page for Uno Ghost theme">Uno theme</a> by <a href="http://daleanthony.com" title="link to website for Dale-Anthony">Dale-Anthony</a></span>
+                <span class="footer__copyright">Proudly published with <a href="http://hubpress.io" title="link to Hubpress website">Hubpress</a></span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script type="text/javascript" src="//lifengchuan2008.github.io/themes/uno/assets/js/main.js?v=1480671798818"></script>
+    
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88346935-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+</body>
+</html>
