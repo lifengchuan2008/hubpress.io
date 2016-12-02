@@ -1,5 +1,6 @@
-= test
-:hp-tags: test, Blog, Open Source,
+= 代码提交规范
+:hp-tags: code, Blog, git, gitlab
+:published_at: 2015-01-31
 
 ### **一、分支**
    分支是 Git 的核心概念，同时 Git Workflow 也是基于分支进行操作.
@@ -111,16 +112,18 @@ git commit -m 'fix #[issue number]: [Short summary of the change].'
 ### **六、Issue**
    #### Issue 用于 Bug追踪和需求管理。建议先新建 Issue，再新建对应的功能分支。功能分支总是为了解决一个或多个 Issue。
    
-   #### 开发完成后，在提交说明里面，可以写上"fixes #14"或者"closes #67"。Github规定，只要commit message里面有下面这些动词 + 编号，就会关闭对应的issue。
-   > - close
-   > - closes
-   > - closed
-   > - fix
-   > - fixes
-   > - fixed
-   > - resolve
-   > - resolves
-   > - resolved
+ 开发完成后，在提交说明里面，可以写上"fixes #14"或者"closes #67"。Github规定，
+ 只要commit message里面有下面这些动词 + 编号，就会关闭对应的issue。
+ 
+> - close
+> - closes
+> - closed
+> - fix
+> - fixes
+> - fixed
+> - resolve
+> - resolves
+> - resolved
 
 
    
@@ -132,16 +135,17 @@ git commit -m 'fix #[issue number]: [Short summary of the change].'
    1.    将功能分支或者hotfix分支代码push到gitlab中
    2.    点击 **Merge requests** tab页面
    
-    ![image](https://docs.gitlab.com/ee/gitlab-basics/img/project_navbar.png)
+image:https://docs.gitlab.com/ee/gitlab-basics/img/project_navbar.png []
    3. 点击 **New merge request** 按钮。
    
-    ![image](https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_new.png)
+image:https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_new.png []
    4. **source branch** 选择对应的功能分支或者hotfix分支，**targer branch**选择 master分支，点击**Compare branches and continue**按钮。
    
-   ![image](https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_select_branch.png)
+image:https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_select_branch.png []
+
    5. 为合并请求添加一个标题和描述，选择一个用户review merge request关闭或者接受合并请求，在描述中可以@其他用户进行代码review，
    
-   ![image](https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_page.png)
+image:https://docs.gitlab.com/ee/gitlab-basics/img/merge_request_page.png [sd]
    
    
 
@@ -157,6 +161,7 @@ git commit -m 'fix #[issue number]: [Short summary of the change].'
  >$ git  commit -m 'fix bugs [#2,#5]' 
  >$ git push
  >```
+
 
 
 
